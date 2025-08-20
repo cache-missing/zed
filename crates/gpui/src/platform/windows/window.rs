@@ -379,7 +379,7 @@ impl WindowsWindow {
                 .unwrap_or(""),
         );
 
-        let (mut dwexstyle, dwstyle) = if params.kind == WindowKind::PopUp {
+        let (mut dwexstyle, dwstyle) = if params.kind == WindowKind::PopUp || params.kind == WindowKind::Floating {
             (WS_EX_TOOLWINDOW, WINDOW_STYLE(0x0))
         } else {
             (

@@ -63,6 +63,8 @@ const NSWindowStyleMaskNonactivatingPanel: NSWindowStyleMask =
 #[allow(non_upper_case_globals)]
 const NSNormalWindowLevel: NSInteger = 0;
 #[allow(non_upper_case_globals)]
+const NSFloatingWindowLevel: NSInteger = 3;
+#[allow(non_upper_case_globals)]
 const NSPopUpWindowLevel: NSInteger = 101;
 #[allow(non_upper_case_globals)]
 const NSTrackingMouseEnteredAndExited: NSUInteger = 0x01;
@@ -560,6 +562,7 @@ impl MacWindow {
 
             let native_window: id = match kind {
                 WindowKind::Normal => msg_send![WINDOW_CLASS, alloc],
+                WindowKind::Floating => msg_send![PANEL_CLASS, alloc],
                 WindowKind::PopUp => {
                     style_mask |= NSWindowStyleMaskNonactivatingPanel;
                     msg_send![PANEL_CLASS, alloc]
@@ -713,6 +716,10 @@ impl MacWindow {
             match kind {
                 WindowKind::Normal => {
                     native_window.setLevel_(NSNormalWindowLevel);
+                    native_window.setAcceptsMouseMovedEvents_(YES);
+                }
+                WindowKind::Floating => {
+                    native_window.setLevel_(NSFloatingWindowLevel);
                     native_window.setAcceptsMouseMovedEvents_(YES);
                 }
                 WindowKind::PopUp => {

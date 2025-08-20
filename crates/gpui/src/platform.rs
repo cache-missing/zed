@@ -1218,6 +1218,10 @@ pub enum WindowKind {
     /// A normal application window
     Normal,
 
+    /// A floating window that appears above normal windows but below popup menus and IME
+    /// This is ideal for utility windows that should float but not interfere with system UI
+    Floating,
+
     /// A window that appears above all other windows, usually used for alerts or popups
     /// use sparingly!
     PopUp,
